@@ -89,11 +89,11 @@ public class MainFragment extends Fragment {
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("new message", onNewMessage);
-        mSocket.on("user joined", onUserJoined);
-        mSocket.on("user left", onUserLeft);
-        mSocket.on("typing", onTyping);
-        mSocket.on("stop typing", onStopTyping);
+        mSocket.on(Constants.SOCKET_NEW_MESSAGE, onNewMessage);
+        mSocket.on(Constants.SOCKET_USER_JOINED, onUserJoined);
+        mSocket.on(Constants.SOCKET_USER_LEFT, onUserLeft);
+        mSocket.on(Constants.SOCKET_TYPING, onTyping);
+        mSocket.on(Constants.SOCKET_STOP_TYPING, onStopTyping);
         mSocket.connect();
 
         startSignIn();
@@ -115,11 +115,11 @@ public class MainFragment extends Fragment {
         mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.off("new message", onNewMessage);
-        mSocket.off("user joined", onUserJoined);
-        mSocket.off("user left", onUserLeft);
-        mSocket.off("typing", onTyping);
-        mSocket.off("stop typing", onStopTyping);
+        mSocket.off(Constants.SOCKET_NEW_MESSAGE, onNewMessage);
+        mSocket.off(Constants.SOCKET_USER_JOINED, onUserJoined);
+        mSocket.off(Constants.SOCKET_USER_LEFT, onUserLeft);
+        mSocket.off(Constants.SOCKET_TYPING, onTyping);
+        mSocket.off(Constants.SOCKET_STOP_TYPING, onStopTyping);
     }
 
     @Override

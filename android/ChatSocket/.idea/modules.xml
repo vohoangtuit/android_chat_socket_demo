@@ -5,7 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/ChatSocket.iml" filepath="$PROJECT_DIR$/ChatSocket.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ChatSocket-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ChatSocket-app.iml" group="ChatSocket/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-ChatSocket.iml" filepath="$PROJECT_DIR$/.idea/modules/android-ChatSocket.iml" group="ChatSocket" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-ChatSocket-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-ChatSocket-app.iml" group="ChatSocket/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-android-ChatSocket.iml" filepath="$PROJECT_DIR$/.idea/modules/app-android-ChatSocket.iml" group="ChatSocket" />
     </modules>
   </component>
 </project>
