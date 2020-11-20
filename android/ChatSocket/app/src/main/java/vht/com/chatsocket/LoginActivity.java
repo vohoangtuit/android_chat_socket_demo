@@ -11,12 +11,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 /**
  * A login screen that offers login via username.
  */
@@ -57,14 +57,14 @@ public class LoginActivity extends Activity {
             }
         });
 
-        mSocket.on("login", onLogin);
+        mSocket.on(Constants.SOCKET_LOGIN, onLogin);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mSocket.off("login", onLogin);
+        mSocket.off(Constants.SOCKET_LOGIN, onLogin);
     }
 
     /**
@@ -91,7 +91,8 @@ public class LoginActivity extends Activity {
         mUsername = username;
 
         // perform the user login attempt.
-        mSocket.emit("add user", username);
+        mSocket.emit(Constants.SOCKET_ADD_USER, username);
+       // mSocket.emit(Constants.SOCKET_ADD_USER);
     }
 
     private Emitter.Listener onLogin = new Emitter.Listener() {
@@ -101,14 +102,14 @@ public class LoginActivity extends Activity {
 
             int numUsers;
             try {
-                numUsers = data.getInt("numUsers");
+                numUsers = data.getInt(Constants.NUM_USERS);
             } catch (JSONException e) {
                 return;
             }
 
             Intent intent = new Intent();
-            intent.putExtra("username", mUsername);
-            intent.putExtra("numUsers", numUsers);
+            intent.putExtra(Constants.USERNAME, mUsername);
+            intent.putExtra(Constants.NUM_USERS, numUsers);
             setResult(RESULT_OK, intent);
             finish();
         }

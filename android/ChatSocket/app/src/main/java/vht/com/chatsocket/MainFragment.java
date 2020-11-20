@@ -32,9 +32,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+import com.github.nkzawa.emitter.Emitter;
 
 /**
  * A chat fragment containing messages view and input form.
@@ -56,6 +56,7 @@ public class MainFragment extends Fragment {
     private Handler mTypingHandler = new Handler();
     private String mUsername;
     private Socket mSocket;
+
 
     private Boolean isConnected = true;
 
@@ -86,6 +87,7 @@ public class MainFragment extends Fragment {
         ChatApplication app = (ChatApplication) getActivity().getApplication();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT,onConnect);
+       // mSocket.on("connect",onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
@@ -153,7 +155,7 @@ public class MainFragment extends Fragment {
 
                 if (!mTyping) {
                     mTyping = true;
-                    mSocket.emit("typing");
+                    mSocket.emit(Constants.SOCKET_TYPING);
                 }
 
                 mTypingHandler.removeCallbacks(onTypingTimeout);
@@ -182,8 +184,8 @@ public class MainFragment extends Fragment {
             return;
         }
 
-        mUsername = data.getStringExtra("username");
-        int numUsers = data.getIntExtra("numUsers", 1);
+        mUsername = data.getStringExtra(Constants.USERNAME);
+        int numUsers = data.getIntExtra(Constants.NUM_USERS, 1);
 
         addLog(getResources().getString(R.string.message_welcome));
         addParticipantsLog(numUsers);
@@ -262,7 +264,7 @@ public class MainFragment extends Fragment {
         addMessage(mUsername, message);
 
         // perform the sending message attempt.
-        mSocket.emit("new message", message);
+        mSocket.emit(Constants.SOCKET_NEW_MESSAGE, message);
     }
 
     private void startSignIn() {
@@ -290,7 +292,7 @@ public class MainFragment extends Fragment {
                 public void run() {
                     if(!isConnected) {
                         if(null!=mUsername)
-                            mSocket.emit("add user", mUsername);
+                            mSocket.emit(Constants.SOCKET_ADD_USER, mUsername);
                         Toast.makeText(getActivity().getApplicationContext(),
                                 R.string.connect, Toast.LENGTH_LONG).show();
                         isConnected = true;
@@ -339,8 +341,8 @@ public class MainFragment extends Fragment {
                     String username;
                     String message;
                     try {
-                        username = data.getString("username");
-                        message = data.getString("message");
+                        username = data.getString(Constants.USERNAME);
+                        message = data.getString(Constants.MESSAGE);
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                         return;
@@ -363,8 +365,8 @@ public class MainFragment extends Fragment {
                     String username;
                     int numUsers;
                     try {
-                        username = data.getString("username");
-                        numUsers = data.getInt("numUsers");
+                        username = data.getString(Constants.USERNAME);
+                        numUsers = data.getInt(Constants.NUM_USERS);
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                         return;
@@ -387,8 +389,8 @@ public class MainFragment extends Fragment {
                     String username;
                     int numUsers;
                     try {
-                        username = data.getString("username");
-                        numUsers = data.getInt("numUsers");
+                        username = data.getString(Constants.USERNAME);
+                        numUsers = data.getInt(Constants.NUM_USERS);
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                         return;
@@ -411,7 +413,7 @@ public class MainFragment extends Fragment {
                     JSONObject data = (JSONObject) args[0];
                     String username;
                     try {
-                        username = data.getString("username");
+                        username = data.getString(Constants.USERNAME);
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                         return;
@@ -431,7 +433,7 @@ public class MainFragment extends Fragment {
                     JSONObject data = (JSONObject) args[0];
                     String username;
                     try {
-                        username = data.getString("username");
+                        username = data.getString(Constants.USERNAME);
                     } catch (JSONException e) {
                         Log.e(TAG, e.getMessage());
                         return;
@@ -448,7 +450,7 @@ public class MainFragment extends Fragment {
             if (!mTyping) return;
 
             mTyping = false;
-            mSocket.emit("stop typing");
+            mSocket.emit(Constants.SOCKET_STOP_TYPING);
         }
     };
 }
